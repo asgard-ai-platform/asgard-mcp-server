@@ -80,9 +80,10 @@ func NewServer(endpointURL, apiKey string) (*Server, error) {
 
 	// Add detailed logging for tool call responses
 	hooks.AddAfterCallTool(func(ctx context.Context, id any, message *mcp.CallToolRequest, result *mcp.CallToolResult) {
-		if result.IsError {
+		switch {
+		case result.IsError:
 			log.Printf("[RPC-TOOL] Tool '%s' response (error)", message.Params.Name)
-		} else if len(result.Content) > 0 {
+		case len(result.Content) > 0:
 			// Log first content item type
 			switch content := result.Content[0].(type) {
 			case mcp.TextContent:
@@ -96,7 +97,7 @@ func NewServer(endpointURL, apiKey string) (*Server, error) {
 			default:
 				log.Printf("[RPC-TOOL] Tool '%s' response (unknown content type)", message.Params.Name)
 			}
-		} else {
+		default:
 			log.Printf("[RPC-TOOL] Tool '%s' response (empty)", message.Params.Name)
 		}
 	})
