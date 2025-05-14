@@ -60,7 +60,12 @@ func (c *APIClient) FetchToolsetManifest() (*ToolsetManifest, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute request: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			_ = fmt.Errorf("failed to close response body: %w", err)
+		}
+	}(resp.Body)
 
 	// Read response body
 	body, err := io.ReadAll(resp.Body)
@@ -149,7 +154,12 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute request: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			_ = fmt.Errorf("failed to close response body: %w", err)
+		}
+	}(resp.Body)
 
 	// Read response body
 	body, err := io.ReadAll(resp.Body)
