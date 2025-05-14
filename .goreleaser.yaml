@@ -1,5 +1,5 @@
 version: 2
-project_name: asgard-mcp-server
+project_name: asgard-mcp-asgard-mcp-server
 before:
   hooks:
     - go mod tidy

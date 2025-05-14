@@ -12,7 +12,7 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
-// Server represents the local MCP server
+// Server represents the local MCP asgard-mcp-server
 type Server struct {
 	endpointURL string
 	apiKey      string
@@ -22,9 +22,9 @@ type Server struct {
 	mcpServer   *server.MCPServer
 }
 
-// NewServer creates a new MCP server with the provided endpoint URL and API key
+// NewServer creates a new MCP asgard-mcp-server with the provided endpoint URL and API key
 func NewServer(endpointURL, apiKey string) (*Server, error) {
-	// Create the server
+	// Create the asgard-mcp-server
 	s := &Server{
 		endpointURL: endpointURL,
 		apiKey:      apiKey,
@@ -102,9 +102,9 @@ func NewServer(endpointURL, apiKey string) (*Server, error) {
 		}
 	})
 
-	// Create MCP server with options
+	// Create MCP asgard-mcp-server with options
 	s.mcpServer = server.NewMCPServer(
-		"asgard-mcp-server",
+		"asgard-mcp-asgard-mcp-server",
 		"0.0.1",
 		server.WithToolCapabilities(true),
 		server.WithHooks(hooks),
@@ -119,9 +119,9 @@ func NewServer(endpointURL, apiKey string) (*Server, error) {
 	return s, nil
 }
 
-// Start starts the MCP server, handling stdin/stdout communication
+// Start starts the MCP asgard-mcp-server, handling stdin/stdout communication
 func (s *Server) Start() error {
-	log.Println("Starting MCP server...")
+	log.Println("Starting MCP asgard-mcp-server...")
 	log.Printf("Endpoint: %s", s.endpointURL)
 
 	s.mutex.RLock()
@@ -131,17 +131,17 @@ func (s *Server) Start() error {
 	}
 	s.mutex.RUnlock()
 
-	// Create the stdio server
+	// Create the stdio asgard-mcp-server
 	stdioServer := server.NewStdioServer(s.mcpServer)
 
 	// Set up error logging
 	stdioServer.SetErrorLogger(log.New(os.Stderr, "[ERROR] ", log.LstdFlags))
 
-	// Start the server
+	// Start the asgard-mcp-server
 	return server.ServeStdio(s.mcpServer)
 }
 
-// registerToolHandlers registers all tools from the manifest with the MCP server
+// registerToolHandlers registers all tools from the manifest with the MCP asgard-mcp-server
 func (s *Server) registerToolHandlers() error {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
@@ -216,7 +216,7 @@ func (s *Server) registerToolHandlers() error {
 		// Set the RawInputSchema to the modified schema
 		mcpTool.RawInputSchema = updatedSchema
 
-		// Register the tool with the server
+		// Register the tool with the asgard-mcp-server
 		s.mcpServer.AddTool(mcpTool, handler)
 	}
 

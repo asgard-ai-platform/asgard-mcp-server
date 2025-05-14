@@ -13,15 +13,15 @@ This server acts as a proxy that connects to remote MCP-compatible API endpoints
 ## Installation
 
 ```bash
-go install github.com/asgard-ai-platform/asgard-mcp-server/cmd/server@latest
+go install github.com/asgard-ai-platform/asgard-mcp-asgard-mcp-server/cmd/asgard-mcp-server@latest
 ```
 
 Alternatively, clone the repo and build manually:
 
 ```bash
 git clone https://github.com/asgard-ai-platform/asgard-mcp-server.git
-cd asgard-mcp-server
-go build -o asgard-mcp-server ./cmd/server
+cd asgard-mcp-asgard-mcp-server
+go build -o asgard-mcp-asgard-mcp-server ./cmd/asgard-mcp-server
 ```
 
 ## Usage
@@ -29,13 +29,13 @@ go build -o asgard-mcp-server ./cmd/server
 Run the server with the required parameters:
 
 ```bash
-asgard-mcp-server --endpoint <endpoint-url> --api-key <api-key>
+asgard-mcp-asgard-mcp-server --endpoint <endpoint-url> --api-key <api-key>
 ```
 
 Example:
 
 ```bash
-asgard-mcp-server --endpoint "https://api.asgard-ai.com/ns/your-asgard-name-space/toolset/your-asgard-toolset-1/manifest" --api-key "YOUR_ASGARD_API_KEY"
+asgard-mcp-asgard-mcp-server --endpoint "https://api.asgard-ai.com/ns/your-asgard-name-space/toolset/your-asgard-toolset-1/manifest" --api-key "YOUR_ASGARD_API_KEY"
 ```
 
 The server will:

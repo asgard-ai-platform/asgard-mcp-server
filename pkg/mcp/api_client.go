@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// APIClient handles API requests to the MCP server
+// APIClient handles API requests to the MCP asgard-mcp-server
 type APIClient struct {
 	baseURL string
 	apiKey  string
