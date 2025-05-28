@@ -8,7 +8,7 @@ import (
 
 const (
 	UploadedFilePathsFieldName = "_uploaded_file_paths"
-	FormDataKeyJson            = "json"
+	FormDataKeyJSON            = "json"
 	FormDataKeyFile            = "file"
 )
 
@@ -27,7 +27,9 @@ func DetectMime(filePath string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to open file %s: %w", filePath, err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file)
 
 	// Read the first 512 bytes
 	buffer := make([]byte, 512)

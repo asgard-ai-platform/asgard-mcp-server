@@ -32,7 +32,7 @@ type Tool struct {
 
 // ToolInvokeEndpoints represents the invoke endpoints for a tool
 type ToolInvokeEndpoints struct {
-	Json string `json:"json"`
+	JSON string `json:"json"`
 	Form string `json:"form"`
 }
 
@@ -98,7 +98,7 @@ func (c *APIClient) FetchToolsetManifest() (*ToolsetManifest, error) {
 				InputSchema      json.RawMessage `json:"input_schema"`
 				AllowUploadFiles bool            `json:"allow_upload_files"`
 				InvokeEndpoints  struct {
-					Json string `json:"json"`
+					JSON string `json:"json"`
 					Form string `json:"form"`
 				} `json:"invoke_endpoints"`
 			} `json:"tools"`
@@ -136,7 +136,7 @@ func (c *APIClient) FetchToolsetManifest() (*ToolsetManifest, error) {
 			InputSchema:      t.InputSchema,
 			AllowUploadFiles: t.AllowUploadFiles,
 			InvokeEndpoints: ToolInvokeEndpoints{
-				Json: t.InvokeEndpoints.Json,
+				JSON: t.InvokeEndpoints.JSON,
 				Form: t.InvokeEndpoints.Form,
 			},
 		}
@@ -154,7 +154,7 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 	if tool.AllowUploadFiles {
 		endpoint = tool.InvokeEndpoints.Form
 	} else {
-		endpoint = tool.InvokeEndpoints.Json
+		endpoint = tool.InvokeEndpoints.JSON
 	}
 
 	// Use the invoke endpoint from the tool definition
@@ -172,7 +172,7 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 		mw := multipart.NewWriter(buf)
 
 		// 1) JSON payload field
-		if err := mw.WriteField(FormDataKeyJson, string(input)); err != nil {
+		if err := mw.WriteField(FormDataKeyJSON, string(input)); err != nil {
 			return nil, fmt.Errorf("failed to write JSON field: %w", err)
 		}
 
@@ -184,11 +184,13 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 		if filePathsIntf, ok := inputData[UploadedFilePathsFieldName].([]interface{}); ok {
 			for _, fpIntf := range filePathsIntf {
 				fp := fmt.Sprintf("%v", fpIntf)
-				f, err := os.Open(fp)
+				f, err := os.Open(fp) // #nosec G304
 				if err != nil {
 					return nil, fmt.Errorf("failed to open file %s: %w", fp, err)
 				}
-				defer f.Close()
+				defer func(f *os.File) {
+					_ = f.Close()
+				}(f)
 
 				// Detect MIME type
 				mimeType, err := DetectMime(fp)
@@ -214,7 +216,10 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 		}
 
 		// 3) finalize
-		mw.Close()
+		err := mw.Close()
+		if err != nil {
+			return nil, fmt.Errorf("failed to close multipart writer: %w", err)
+		}
 		body = buf
 		contentType = mw.FormDataContentType()
 	} else {
