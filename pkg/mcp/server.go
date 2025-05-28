@@ -160,7 +160,7 @@ func (s *Server) registerToolHandlers() error {
 			}
 
 			// Log API call
-			log.Printf("[API-CALL] Executing tool '%s' against endpoint: %s", localTool.Name, localTool.InvokeEndpoint)
+			log.Printf("[API-CALL] Executing tool '%s'", localTool.Name)
 
 			// Execute the tool request
 			// The APIClient.ExecuteToolRequest method now handles the Asgard response format
@@ -200,10 +200,20 @@ func (s *Server) registerToolHandlers() error {
 			return fmt.Errorf("failed to parse input schema for tool %s: %w", localTool.Name, err)
 		}
 
-		// Ensure the schema has the required 'type' field set to 'object'
 		if schema != nil {
+			// Ensure the schema has the required 'type' field set to 'object'
 			if _, ok := schema["type"]; !ok {
 				schema["type"] = "object"
+			}
+			if tool.AllowUploadFiles {
+				// Ensue the schema has the required 'properties' field
+				if _, ok := schema["properties"]; !ok {
+					schema["properties"] = make(map[string]interface{})
+				}
+				// Append the UploadedFilePaths field if the tool allows file uploads
+				if props, ok := schema["properties"].(map[string]interface{}); ok {
+					props[UploadedFilePathsFieldName] = UploadedFilePathsSchema
+				}
 			}
 		}
 

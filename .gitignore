@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+bin/
 asgard-mcp-server
 
 # Test binary, built with `go test -c`
@@ -21,6 +22,11 @@ go.work
 # IDE files
 .idea/
 .vscode/
+
+# Environment files
+.env
+.env.*
+
 
 # OS-specific files
 .DS_Store
