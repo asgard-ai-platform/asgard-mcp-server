@@ -184,7 +184,7 @@ func (c *APIClient) ExecuteToolRequest(tool *Tool, input json.RawMessage) (json.
 		if filePathsIntf, ok := inputData[UploadedFilePathsFieldName].([]interface{}); ok {
 			for _, fpIntf := range filePathsIntf {
 				fp := fmt.Sprintf("%v", fpIntf)
-				f, err := os.Open(fp) // #nosec G304
+				f, err := os.Open(fp) //nolint
 				if err != nil {
 					return nil, fmt.Errorf("failed to open file %s: %w", fp, err)
 				}

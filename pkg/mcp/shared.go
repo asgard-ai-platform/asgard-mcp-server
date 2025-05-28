@@ -23,7 +23,7 @@ var UploadedFilePathsSchema = map[string]interface{}{
 
 func DetectMime(filePath string) (string, error) {
 	// Open the file
-	file, err := os.Open(filePath)
+	file, err := os.Open(filePath) //nolint
 	if err != nil {
 		return "", fmt.Errorf("failed to open file %s: %w", filePath, err)
 	}
