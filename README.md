@@ -8,20 +8,20 @@ This server acts as a proxy that connects to remote MCP-compatible API endpoints
 
 ## Requirements
 
-- Go 1.21 or later
+- Go 1.24 or later
 
 ## Installation
 
 ```bash
-go install github.com/asgard-ai-platform/asgard-mcp-asgard-mcp-server/cmd/asgard-mcp-server@latest
+go install github.com/asgard-ai-platform/asgard-mcp-server/cmd/asgard-mcp-server@latest
 ```
 
 Alternatively, clone the repo and build manually:
 
 ```bash
 git clone https://github.com/asgard-ai-platform/asgard-mcp-server.git
-cd asgard-mcp-asgard-mcp-server
-go build -o asgard-mcp-asgard-mcp-server ./cmd/asgard-mcp-server
+cd asgard-mcp-server
+go build -o asgard-mcp-server ./cmd/asgard-mcp-server
 ```
 
 ## Usage
@@ -29,13 +29,13 @@ go build -o asgard-mcp-asgard-mcp-server ./cmd/asgard-mcp-server
 Run the server with the required parameters:
 
 ```bash
-asgard-mcp-asgard-mcp-server --endpoint <endpoint-url> --api-key <api-key>
+asgard-mcp-server --endpoint <endpoint-url> --api-key <api-key>
 ```
 
 Example:
 
 ```bash
-asgard-mcp-asgard-mcp-server --endpoint "https://api.asgard-ai.com/ns/your-asgard-name-space/toolset/your-asgard-toolset-1/manifest" --api-key "YOUR_ASGARD_API_KEY"
+asgard-mcp-server --endpoint "https://api.asgard-ai.com/ns/your-asgard-name-space/toolset/your-asgard-toolset-1/manifest" --api-key "YOUR_ASGARD_API_KEY"
 ```
 
 The server will:
@@ -51,11 +51,11 @@ To use this server with Claude Desktop:
 
 1. Run the server with the appropriate parameters
 2. In Claude Desktop, configure the MCP provider to use the stdio interface
-3. Point Claude Desktop to the running instance of asgard-local-mcp
+3. Point Claude Desktop to the running instance of asgard-mcp-server
 
 ## Protocol
 
-This implementation is based on the MCP (Model Control Protocol) specification using the [mcp-go](https://github.com/mark3labs/mcp-go) library v0.27.0.
+This implementation is based on the MCP (Model Control Protocol) specification using the [mcp-go](https://github.com/mark3labs/mcp-go) library v0.36.0.
 
 ## Testing
 
