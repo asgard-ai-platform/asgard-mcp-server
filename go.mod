@@ -1,8 +1,8 @@
 module github.com/asgard-ai-platform/asgard-mcp-server
 
-go 1.23
+go 1.24
 
-toolchain go1.23.6
+toolchain go1.24.6
 
 require github.com/mark3labs/mcp-go v0.27.0
 
