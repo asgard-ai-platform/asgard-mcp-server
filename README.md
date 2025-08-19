@@ -24,6 +24,46 @@ cd asgard-mcp-server
 go build -o asgard-mcp-server ./cmd/asgard-mcp-server
 ```
 
+### Download from GitHub Releases
+
+You can also download pre-built binaries from the [GitHub Releases](https://github.com/asgard-ai-platform/asgard-mcp-server/releases) page:
+
+1. Go to the [Releases](https://github.com/asgard-ai-platform/asgard-mcp-server/releases) page
+2. Download the appropriate archive for your platform:
+   - `asgard-mcp-server_Linux_x86_64.tar.gz` for Linux
+   - `asgard-mcp-server_Darwin_x86_64.tar.gz` for macOS Intel
+   - `asgard-mcp-server_Darwin_arm64.tar.gz` for macOS Apple Silicon
+   - `asgard-mcp-server_Windows_x86_64.zip` for Windows
+
+3. Extract the archive:
+   ```bash
+   # For Linux/macOS
+   tar -xzf asgard-mcp-server_*.tar.gz
+   
+   # For Windows
+   unzip asgard-mcp-server_*.zip
+   ```
+
+4. **For macOS users**: Remove the quarantine attribute to allow execution:
+   ```bash
+   xattr -d com.apple.quarantine asgard-mcp-server
+   ```
+
+5. Make the binary executable (Linux/macOS):
+   ```bash
+   chmod +x asgard-mcp-server
+   ```
+
+6. Optionally, move the binary to your PATH:
+   ```bash
+   # Linux/macOS
+   sudo mv asgard-mcp-server /usr/local/bin/
+   
+   # Or add to your user's bin directory
+   mkdir -p ~/bin
+   mv asgard-mcp-server ~/bin/
+   ```
+
 ## Usage
 
 Run the server with the required parameters:
